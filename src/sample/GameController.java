@@ -25,20 +25,16 @@ public class GameController implements Initializable {
     public ComboBox borderBox;
     public GridPane fieldGrid;
     public TextField ruleField1;
+    public Rectangle[][] rectangles;
+    public javafx.scene.control.Button Button;
+
 
     EventHandler handler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             int row = (int)(mouseEvent.getY()/40);
             int column = (int)(mouseEvent.getX()/40);
-            Rectangle r = new Rectangle();
-            r.setX(0);
-            r.setY(0);
-            r.setHeight(40);
-            r.setWidth(40);
-            r.setFill(Color.DARKGRAY);
-            fieldGrid.add(r, column,row);
-            GameData.getInstance().addLife(row,column);
+            GameData.getInstance().changeLife(row,column);
         }
     };
 
@@ -55,6 +51,7 @@ public class GameController implements Initializable {
 
     public GridPane createField(int width,int height){
         GridPane gp = new GridPane();
+        rectangles = new Rectangle[height][width];
         for(int i = 0; i < width; i++) {
             ColumnConstraints column = new ColumnConstraints(40);
             gp.getColumnConstraints().add(column);
@@ -65,14 +62,44 @@ public class GameController implements Initializable {
             gp.getRowConstraints().add(row);
         }
         gp.setStyle("-fx-grid-lines-visible: true");
-
+        for(int i = 0;i < height; i++){
+            for(int j = 0; j < width; j++){
+                Rectangle r = new Rectangle();
+                r.setX(0);
+                r.setY(0);
+                r.setHeight(40);
+                r.setWidth(40);
+                r.setFill(Color.WHITE);
+                rectangles[i][j]=r;
+                gp.add(rectangles[i][j], j, i);
+            }
+        }
+        GameData.getInstance().setRectangles(rectangles);
         return gp;
     }
 
     public void startGame(ActionEvent actionEvent) {
-        GameData.getInstance().setRule0(ruleField0.getText().split(""));
-        GameData.getInstance().setRule1(ruleField1.getText().split(""));
+        GameData.getInstance().setRule0(ruleField0.getText());
+        GameData.getInstance().setRule1(ruleField1.getText());
+        Button.setText("Stop!");
+        Button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                GameData.getInstance().terminateSES();
+                Button.setText("Start!");
+                changeButton();
+            }
+        });
+        GameData.getInstance().start();
+    }
 
+    public void changeButton(){
+        Button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                startGame(actionEvent);
+            }
+        });
     }
 }
 

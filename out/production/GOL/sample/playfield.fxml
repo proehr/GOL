@@ -14,9 +14,9 @@
         <GridPane hgap="10" vgap="10" fx:id="sceneGrid">
             <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
             <Label text="rule:" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="3"/>
-            <TextField fx:id="ruleField0" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="100"/>
+            <TextField fx:id="ruleField1" GridPane.columnIndex="0" GridPane.rowIndex="1" maxWidth="100"/>
             <Label text=" / " GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-            <TextField fx:id="ruleField1" GridPane.columnIndex="2" GridPane.rowIndex="1" maxWidth="100"/>
+            <TextField fx:id="ruleField0" GridPane.columnIndex="2" GridPane.rowIndex="1" maxWidth="100"/>
             <Label text="border:" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
             <ComboBox fx:id="borderBox" GridPane.columnIndex="3" GridPane.rowIndex="1">
                 <items>
@@ -27,6 +27,6 @@
                     </FXCollections>
                 </items>
             </ComboBox>
-            <Button text="Start!" onAction="#startGame" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
+            <Button text="Start!" onAction="#startGame" GridPane.columnIndex="4" GridPane.rowIndex="1" fx:id="Button"/>
         </GridPane>
 </AnchorPane>
