@@ -3,12 +3,12 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane fx:controller="sample.SampleController"
             xmlns:fx="http://javafx.com/fxml" fx:id="rootAnchor">
-<GridPane alignment="center" hgap="10" vgap="10">
-    <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
-    <Label text="Height:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-    <TextField fx:id="heightField" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-    <Label text="Width:" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-    <TextField fx:id="widthField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-    <Button text="Create Field" onAction="#loadNewScene" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-</GridPane>
+    <GridPane alignment="center" hgap="10" vgap="10">
+        <padding><Insets top="25" right="25" bottom="10" left="25"/></padding>
+        <Label text="Height:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <TextField fx:id="heightField" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+        <Label text="Width:" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+        <TextField fx:id="widthField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+        <Button text="Create Field" onAction="#loadNewScene" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </GridPane>
 </AnchorPane>

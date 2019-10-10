@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,12 +20,14 @@ public class SampleController implements Initializable {
         int height = Integer.parseInt(heightField.getText());
         int width = Integer.parseInt(widthField.getText());
         GameData.getInstance().setData(height, width);
+        Stage stage = Main.getStage();
+        stage.setHeight(137 + GameData.getInstance().getRectangleSize()*height);
+        stage.setWidth(GameData.getInstance().getRectangleSize()*width + 50);
         AnchorPane pane = FXMLLoader.load(getClass().getResource("playfield.fxml"));
         rootAnchor.getChildren().setAll(pane);
 
     }
 
-    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }

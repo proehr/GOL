@@ -23,24 +23,24 @@ public class GameController implements Initializable {
     public GridPane sceneGrid;
     public TextField ruleField0;
     public ComboBox borderBox;
-    public GridPane fieldGrid;
+    private GridPane fieldGrid;
     public TextField ruleField1;
-    public Rectangle[][] rectangles;
+    private Rectangle[][] rectangles;
     public javafx.scene.control.Button Button;
 
 
     EventHandler handler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
-            int row = (int)(mouseEvent.getY()/40);
-            int column = (int)(mouseEvent.getX()/40);
+            int row = (int)(mouseEvent.getY()/GameData.getInstance().getRectangleSize());
+            int column = (int)(mouseEvent.getX()/GameData.getInstance().getRectangleSize());
             GameData.getInstance().changeLife(row,column);
         }
     };
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        fieldGrid = createField(GameData.getInstance().getWidth(),GameData.getInstance().getHeight());
+        fieldGrid = createField(GameData.getInstance().getWidth(),GameData.getInstance().getHeight(), GameData.getInstance().getRectangleSize());
         sceneGrid.add(fieldGrid, 0,2,5,1);
         fieldGrid.setOnMouseClicked(handler);
     }
@@ -49,16 +49,16 @@ public class GameController implements Initializable {
         Application.launch(Main.class, args);
     }
 
-    public GridPane createField(int width,int height){
+    public GridPane createField(int width,int height, int rs){
         GridPane gp = new GridPane();
         rectangles = new Rectangle[height][width];
         for(int i = 0; i < width; i++) {
-            ColumnConstraints column = new ColumnConstraints(40);
+            ColumnConstraints column = new ColumnConstraints(rs);
             gp.getColumnConstraints().add(column);
         }
 
         for(int i = 0; i < height; i++) {
-            RowConstraints row = new RowConstraints(40);
+            RowConstraints row = new RowConstraints(rs);
             gp.getRowConstraints().add(row);
         }
         gp.setStyle("-fx-grid-lines-visible: true");
@@ -67,8 +67,8 @@ public class GameController implements Initializable {
                 Rectangle r = new Rectangle();
                 r.setX(0);
                 r.setY(0);
-                r.setHeight(40);
-                r.setWidth(40);
+                r.setHeight(rs);
+                r.setWidth(rs);
                 r.setFill(Color.WHITE);
                 rectangles[i][j]=r;
                 gp.add(rectangles[i][j], j, i);
@@ -81,6 +81,7 @@ public class GameController implements Initializable {
     public void startGame(ActionEvent actionEvent) {
         GameData.getInstance().setRule0(ruleField0.getText());
         GameData.getInstance().setRule1(ruleField1.getText());
+        GameData.getInstance().setBorder(borderBox.getSelectionModel().getSelectedIndex());
         Button.setText("Stop!");
         Button.setOnAction(new EventHandler<ActionEvent>() {
             @Override

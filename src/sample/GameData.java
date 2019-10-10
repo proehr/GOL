@@ -15,12 +15,20 @@ public class GameData {
     }
 
     private Rectangle[][] rectangles;
+
+
+
+    private int rectangleSize;
     private int width;
     private int height;
     private int[][] lifeList;
     private String rule0;
     private String rule1;
     public ScheduledExecutorService ses;
+    private int border;                                 // 0 = all dead, 1 = all alive, 2 = go around
+    private String[] paintList={"C62828", "AD1457" , "6A1B9A", "4527A0" , "283593" ,
+            "1565C0" , "0277BD" , "00838F" , "00695C", "2E7D32" , "558B2F" , "9E9D24" ,
+            "F9A825" , "FF8F00" , "EF6C00" , "D84315" };
 
     int getHeight() {
         return height;
@@ -28,6 +36,10 @@ public class GameData {
 
     int getWidth() {
         return width;
+    }
+
+    public int getRectangleSize() {
+        return rectangleSize;
     }
 
     void setRule0(String rule0) {
@@ -42,11 +54,23 @@ public class GameData {
         this.height=height;
         this.width=width;
         this.lifeList=new int[height][width];
+        if(height>61 || width>=98) {
+            this.rectangleSize = 613 / height;
+        }
+        else if(height>30 || width >= 49){
+            this.rectangleSize = 10;
+        }
+        else{
+            this.rectangleSize = 20;
+        }
+        System.out.println(rectangleSize);
     }
 
     public void setRectangles(Rectangle[][] rectangles) {
         this.rectangles= rectangles;
     }
+
+
 
     void changeLife(int row, int column) {
         if(lifeList[row][column]==0) {
@@ -56,6 +80,12 @@ public class GameData {
             lifeList[row][column] = 0;
             rectangles[row][column].setFill(Color.WHITE);
         }
+    }
+
+    private Color getRandomColor() {
+        int rndm = (int)(Math.random()*16);
+        String s = "0X" + paintList[rndm];
+        return Color.web(s);
     }
 
     void start(){
@@ -75,7 +105,7 @@ public class GameData {
                     }
                 }
             }
-        },500,500, TimeUnit.MILLISECONDS);
+        },50,50, TimeUnit.MILLISECONDS);
 
     }
 
@@ -100,8 +130,8 @@ public class GameData {
                 if(i != row || j != column){
                     try {
                         counter+=lifeList[i][j];
-                    }catch(Exception ignored){
-
+                    }catch(Exception e){
+                        counter += borderpatrol(i,j);
                     }
                 }
             }
@@ -109,8 +139,30 @@ public class GameData {
         return counter;
     }
 
+    private int borderpatrol(int i, int j) {
+        if(border == 2){
+            if((i<0 || i >= height)  && (j<0 || j>=width)){
+                return lifeList[height-Math.abs(i)][width-Math.abs(j)];
+            }
+            if(i<0 || i>=height){
+                return lifeList[height-Math.abs(i)][j];
+            }else{
+                return lifeList[i][width-Math.abs(j)];
+            }
+        }
+        else{
+            return border;
+        }
+    }
+
+
+
 
     public void terminateSES() {
         ses.shutdown();
+    }
+
+    public void setBorder(int border) {
+        this.border = border;
     }
 }
